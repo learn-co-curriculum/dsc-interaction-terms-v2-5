@@ -549,13 +549,13 @@ results.summary()
 
 
 
-# Additional resources
+## Additional resources
 
 - You can use the Python library seaborn plots to visualize interactions as well. Have a look [here](https://blog.insightdatascience.com/data-visualization-in-python-advanced-functionality-in-seaborn-20d217f1a9a6) for more information.
 
 - [This resource](https://cran.r-project.org/web/packages/jtools/vignettes/interactions.html) walks over a few datasets with interactions. Even though the code is in R, it might give you some additional insights in how interactions work.
 
 
-# Summary
+## Summary
 
 Great! You now know how to interpret interactions, how to include them in your model and how to interpret them. Obviously, nothing stops you from adding multiple interactions at the same time, and you probably should in many occasions. You'll practice what you learned in the next lab, including interactions 
