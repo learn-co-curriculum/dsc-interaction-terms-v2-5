@@ -553,7 +553,7 @@ results.summary()
 
 - You can use the Python library seaborn plots to visualize interactions as well. Have a look [here](https://blog.insightdatascience.com/data-visualization-in-python-advanced-functionality-in-seaborn-20d217f1a9a6) for more information.
 
-- [This resource](https://cran.r-project.org/web/packages/jtools/vignettes/interactions.html) walks over a few datasets with interactions. Even though the code is in R, it might give you some additional insights in how interactions work.
+- [This resource](http://www.medicine.mcgill.ca/epidemiology/joseph/courses/EPIB-621/interaction.pdf) walks over multiple examples of regressions with interaction terms. Even though the code is in R, it might give you some additional insights in how interactions work.
 
 
 ## Summary
