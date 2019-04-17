@@ -22,17 +22,17 @@ Let's assume we're trying to predict weight loss of certain people who took a di
 - Considering just the people in the USA and the UK, it seems like the effects of both predictors are additive:
     * Weight loss is bigger in the UK than in the USA.
     * Diet C is more effective than diet A. Diet A is more effective than diet B, which makes diet B the least effective.
-- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet C than in the other contries. 
+- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet C than in the other countries. 
 
 <img src='diet_image.png' style="width: 500px;">
 
-This means that the "Country" and "Diet" affect the weight loss in a non-additive matter. If we're mostly interested in the effect of diet on weight loss (which seems to be plausible here), we say that Country is a **confounding factor** of the effect of "Diet" on weight loss.
+This means that the "Country" and "Diet" affect weight loss in a non-additive matter. If we're mostly interested in the effect of diet on weight loss (which seems to be plausible here), we say that Country is a **confounding factor** of the effect of "Diet" on weight loss.
 
 ## Why is it important to account for interactions?
 
 Now that you've seen how interactions work, let's now discuss why it is important to add interaction terms. The reason for that is pretty straightforward: not accounting for them might lead to results that are wrong. You'll also notice that including them when they're needed will increase your $R^2$ value!
 
-In our example the interaction plot was composed out of categorical predictors (countries and diet type), but interactions can occur between categorical variables or between a mix of categorical variables and continuous variables!
+In our example, the interaction plot was composed out of categorical predictors (countries and diet type), but interactions can occur between categorical variables or between a mix of categorical variables and continuous variables!
 
 Let's go back to our "cars" data set and look at some interactions we can include there.
 
@@ -99,7 +99,7 @@ See how we built a baseline model using some (log-transformed etc) predictors an
 
 ## Interactions between horsepower and origin
 
-To look at how horsepower and origin interact, we can work as follows. We split our data in 3 data sets, one set per origin. Then we fit a model with outcome "mpg" and only horsepower as a predictor, and do this for each of the data set. Then we plot the data all together and see what our regression lines look like.
+To look at how horsepower and origin interact, you can work as follows. Split the data into 3 data sets, one set per origin. Then fit a model with outcome "mpg" and only horsepower as a predictor and do this for each of the data set. Then plot the data all together and see what the regression lines look like.
 
 
 ```python
@@ -303,10 +303,10 @@ results.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   285.6</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 04 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>2.84e-156</td>
+  <th>Date:</th>             <td>Wed, 17 Apr 2019</td> <th>  Prob (F-statistic):</th> <td>2.84e-156</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:03:21</td>     <th>  Log-Likelihood:    </th> <td> -980.75</td> 
+  <th>Time:</th>                 <td>15:26:07</td>     <th>  Log-Likelihood:    </th> <td> -980.75</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   1980.</td> 
@@ -366,7 +366,7 @@ results.summary()
 <tr>
   <th>Kurtosis:</th>      <td> 5.036</td> <th>  Cond. No.          </th> <td>2.13e+03</td>
 </tr>
-</table>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 2.13e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.
 
 
 
@@ -411,7 +411,7 @@ print(regression_2.coef_)
 
 
 
-    <matplotlib.figure.Figure at 0x1a2cbf4160>
+    <Figure size 864x504 with 0 Axes>
 
 
 
@@ -482,10 +482,10 @@ results.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   331.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 04 Nov 2018</td> <th>  Prob (F-statistic):</th> <td>5.05e-167</td>
+  <th>Date:</th>             <td>Wed, 17 Apr 2019</td> <th>  Prob (F-statistic):</th> <td>5.05e-167</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>16:30:26</td>     <th>  Log-Likelihood:    </th> <td> -955.36</td> 
+  <th>Time:</th>                 <td>15:26:07</td>     <th>  Log-Likelihood:    </th> <td> -955.36</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   1929.</td> 
@@ -545,7 +545,7 @@ results.summary()
 <tr>
   <th>Kurtosis:</th>      <td> 4.802</td> <th>  Cond. No.          </th> <td>7.96e+03</td>
 </tr>
-</table>
+</table><br/><br/>Warnings:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 7.96e+03. This might indicate that there are<br/>strong multicollinearity or other numerical problems.
 
 
 
@@ -553,9 +553,9 @@ results.summary()
 
 - You can use the Python library seaborn plots to visualize interactions as well. Have a look [here](https://blog.insightdatascience.com/data-visualization-in-python-advanced-functionality-in-seaborn-20d217f1a9a6) for more information.
 
-- [This resource](http://www.medicine.mcgill.ca/epidemiology/joseph/courses/EPIB-621/interaction.pdf) walks over multiple examples of regressions with interaction terms. Even though the code is in R, it might give you some additional insights in how interactions work.
+- [This resource](http://www.medicine.mcgill.ca/epidemiology/joseph/courses/EPIB-621/interaction.pdf) walks over multiple examples of regressions with interaction terms. Even though the code is in R, it might give you some additional insights into how interactions work.
 
 
 ## Summary
 
-Great! You now know how to interpret interactions, how to include them in your model and how to interpret them. Obviously, nothing stops you from adding multiple interactions at the same time, and you probably should in many occasions. You'll practice what you learned in the next lab, including interactions 
+Great! You now know how to interpret interactions, how to include them in your model and how to interpret them. Obviously, nothing stops you from adding multiple interactions at the same time, and you probably should for many occasions. You'll practice what you learned in the next lab, including interactions 
