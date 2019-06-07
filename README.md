@@ -22,7 +22,7 @@ Let's assume we're trying to predict weight loss of certain people who took a di
 - Considering just the people in the USA and the UK, it seems like the effects of both predictors are additive:
     * Weight loss is bigger in the UK than in the USA.
     * Diet C is more effective than diet A. Diet A is more effective than diet B, which makes diet B the least effective.
-- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet C than in the other countries. 
+- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet A than in the UK
 
 <img src='./images/diet_image.png' style="width: 500px;">
 
