@@ -24,7 +24,7 @@ Let's assume we're trying to predict weight loss of certain people who took a di
     * Diet C is more effective than diet A. Diet A is more effective than diet B, which makes diet B the least effective.
 - When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet A than in the UK
 
-<img src='./images/new_diet_image.png' style="width: 500px;">
+<img src='./images/new_diet_image.png' style="width: 300px;">
 
 This means that the "Country" and "Diet" affect weight loss in a non-additive matter. If we're mostly interested in the effect of diet on weight loss (which seems to be plausible here), we say that Country is a **confounding factor** of the effect of "Diet" on weight loss.
 
