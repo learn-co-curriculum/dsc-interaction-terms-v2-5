@@ -8,8 +8,8 @@ In this section, you'll learn about interactions and how to account for them in 
 ## Objectives
 
 You will be able to:
-- Understand what interactions are
-- Understand how to accommodate for interactions in regression
+- Define interactions in a linear model
+- Describe how to accommodate for interactions using the parameters of a  linear regression 
 
 ## What are interactions?
 
@@ -22,19 +22,19 @@ Let's assume we're trying to predict weight loss of certain people who took a di
 - Considering just the people in the USA and the UK, it seems like the effects of both predictors are additive:
     * Weight loss is bigger in the USA than in the UK.
     * Diet C is more effective than diet A. Diet A is more effective than diet B, which makes diet B the least effective.
-- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet A than in the UK
+- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet A in the UK
 
 <img src='./images/new_diet_image.png' width="500">
 
-This means that the "Country" and "Diet" affect weight loss in a non-additive matter. If we're mostly interested in the effect of diet on weight loss (which seems to be plausible here), we say that Country is a **confounding factor** of the effect of "Diet" on weight loss.
+This means that the "Country" and "Diet" affect weight loss in a non-additive matter. If we're mostly interested in the effect of diet on weight loss (which seems to be plausible here), we say that "Country" is a **confounding factor** of the effect of "Diet" on weight loss.
 
 ## Why is it important to account for interactions?
 
-Now that you've seen how interactions work, let's now discuss why it is important to add interaction terms. The reason for that is pretty straightforward: not accounting for them might lead to results that are wrong. You'll also notice that including them when they're needed will increase your $R^2$ value!
+Now that you've seen how interactions work, let's discuss why it is important to add interaction terms. The reason for that is pretty straightforward: not accounting for them might lead to results that are wrong. You'll also notice that including them when they're needed will increase your $R^2$ value!
 
 In our example, the interaction plot was composed out of categorical predictors (countries and diet type), but interactions can occur between categorical variables or between a mix of categorical variables and continuous variables!
 
-Let's go back to our "cars" data set and look at some interactions we can include there.
+Let's go back to our `cars` dataset and look at some interactions we can include: 
 
 
 ```python
@@ -45,23 +45,13 @@ from itertools import combinations
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
-data = pd.read_csv("auto-mpg.csv") 
-y = data[["mpg"]]
-X = data.drop(["mpg", "car name"], axis=1)
-```
+data = pd.read_csv('auto-mpg.csv') 
 
 
-```python
-import pandas as pd
-import numpy as np
-data = pd.read_csv("auto-mpg.csv") 
-data['horsepower'].astype(str).astype(int)
-
-acc = data["acceleration"]
-logdisp = np.log(data["displacement"])
-loghorse = np.log(data["horsepower"])
-logweight= np.log(data["weight"])
+acc = data['acceleration']
+logdisp = np.log(data['displacement'])
+loghorse = np.log(data['horsepower'])
+logweight= np.log(data['weight'])
 
 scaled_acc = (acc-min(acc))/(max(acc)-min(acc))	
 scaled_disp = (logdisp-np.mean(logdisp))/np.sqrt(np.var(logdisp))
@@ -69,14 +59,14 @@ scaled_horse = (loghorse-np.mean(loghorse))/(max(loghorse)-min(loghorse))
 scaled_weight= (logweight-np.mean(logweight))/np.sqrt(np.var(logweight))
 
 data_fin = pd.DataFrame([])
-data_fin["acc"]= scaled_acc
-data_fin["disp"]= scaled_disp
-data_fin["horse"] = scaled_horse
-data_fin["weight"] = scaled_weight
-mpg = data["mpg"]
-data_fin = pd.concat([mpg, data_fin, data["cylinders"], data["model year"], data["origin"]], axis=1)
-y = data_fin[["mpg"]]
-X = data_fin.drop(["mpg"], axis=1)
+data_fin['acc']= scaled_acc
+data_fin['disp']= scaled_disp
+data_fin['horse'] = scaled_horse
+data_fin['weight'] = scaled_weight
+mpg = data['mpg']
+data_fin = pd.concat([mpg, data_fin, data['cylinders'], data['model year'], data['origin']], axis=1)
+y = data_fin[['mpg']]
+X = data_fin.drop(['mpg'], axis=1)
 ```
 
 
@@ -84,28 +74,28 @@ X = data_fin.drop(["mpg"], axis=1)
 regression = LinearRegression()
 crossvalidation = KFold(n_splits=3, shuffle=True, random_state=1)
 
-baseline = np.mean(cross_val_score(regression, X, y, scoring="r2", cv=crossvalidation))
+baseline = np.mean(cross_val_score(regression, X, y, scoring='r2', cv=crossvalidation))
 baseline
 ```
 
 
 
 
-    0.8322880898272432
+    0.8322880898272431
 
 
 
-See how we built a baseline model using some (log-transformed etc) predictors and some categorical predictors. We didn't properly convert the categorical variables to categorical yet, which we should do in the end, but we want to start with a baseline model and a baseline $R^2$ just to get a sense of what a baseline model looks like.
+See how we built a baseline model using some log-transformed predictors and some categorical predictors. We didn't properly convert the categorical variables to categorical yet, which we should do in the end, but we want to start with a baseline model and a baseline $R^2$ just to get a sense of what a baseline model looks like.
 
 ## Interactions between horsepower and origin
 
-To look at how horsepower and origin interact, you can work as follows. Split the data into 3 data sets, one set per origin. Then fit a model with outcome "mpg" and only horsepower as a predictor and do this for each of the data set. Then plot the data all together and see what the regression lines look like.
+To look at how horsepower and origin interact, you can work as follows. Split the data into 3 datasets, one set per origin. Then fit a model with outcome "mpg" and only horsepower as a predictor and do this for each of the dataset. Then plot the data all together and see what the regression lines look like.
 
 
 ```python
-origin_1 = data_fin[data_fin["origin"]==1]
-origin_2 = data_fin[data_fin["origin"]==2]
-origin_3 = data_fin[data_fin["origin"]==3]
+origin_1 = data_fin[data_fin['origin'] == 1]
+origin_2 = data_fin[data_fin['origin'] == 2]
+origin_3 = data_fin[data_fin['origin'] == 3]
 origin_1.head()
 ```
 
@@ -208,13 +198,13 @@ regression_1 = LinearRegression()
 regression_2 = LinearRegression()
 regression_3 = LinearRegression()
 
-horse_1 = origin_1["horse"].values.reshape(-1, 1)
-horse_2 = origin_2["horse"].values.reshape(-1, 1)
-horse_3 = origin_3["horse"].values.reshape(-1, 1)
+horse_1 = origin_1['horse'].values.reshape(-1, 1)
+horse_2 = origin_2['horse'].values.reshape(-1, 1)
+horse_3 = origin_3['horse'].values.reshape(-1, 1)
 
-regression_1.fit(horse_1, origin_1["mpg"])
-regression_2.fit(horse_2, origin_2["mpg"])
-regression_3.fit(horse_3, origin_3["mpg"])
+regression_1.fit(horse_1, origin_1['mpg'])
+regression_2.fit(horse_2, origin_2['mpg'])
+regression_3.fit(horse_3, origin_3['mpg'])
 
 # Make predictions using the testing set
 pred_1 = regression_1.predict(horse_1)
@@ -239,20 +229,20 @@ You can see that we have three different estimates for the slope,  -25.29 for or
 # Plot outputs
 plt.figure(figsize=(10,6))
 
-plt.scatter(horse_1, origin_1["mpg"],  color='blue', alpha = 0.3, label = "origin = 1")
-plt.scatter(horse_2, origin_2["mpg"],  color='red', alpha = 0.3, label = "origin = 2")
-plt.scatter(horse_3, origin_3["mpg"],  color='orange', alpha = 0.3, label = "origin = 3")
+plt.scatter(horse_1, origin_1['mpg'],  color='blue', alpha=0.3, label = 'origin = 1')
+plt.scatter(horse_2, origin_2['mpg'],  color='red', alpha=0.3, label = 'origin = 2')
+plt.scatter(horse_3, origin_3['mpg'],  color='orange', alpha=0.3, label = 'origin = 3')
 
-plt.plot(horse_1, pred_1,  color='blue', linewidth=2)
-plt.plot(horse_2, pred_2,  color='red', linewidth=2)
-plt.plot(horse_3, pred_3,  color='orange', linewidth=2)
-plt.ylabel("mpg")
-plt.xlabel("horsepower")
+plt.plot(horse_1, pred_1, color='blue', linewidth=2)
+plt.plot(horse_2, pred_2, color='red', linewidth=2)
+plt.plot(horse_3, pred_3, color='orange', linewidth=2)
+plt.ylabel('mpg')
+plt.xlabel('horsepower')
 plt.legend();
 ```
 
 
-![png](index_files/index_20_0.png)
+![png](index_files/index_19_0.png)
 
 
 Even though we get three different lines at different levels, they do seem to be more or less parallel, so the effect seems pretty additive. Just based on looking at this, it seems like there is no real interaction and the effect of origin when predicting mpg using horsepower is additive. It might not be necessary to include an interaction effect in our model. But how would you actually include interaction effects in our model? To do this, you basically multiply 2 predictors. Let's add an interaction effect between origin and horsepower and see how it affects our $R^2$. 
@@ -263,9 +253,9 @@ regression = LinearRegression()
 crossvalidation = KFold(n_splits=3, shuffle=True, random_state=1)
 
 X_interact = X.copy()
-X_interact["horse_origin"] = X["horse"] * X["origin"]
+X_interact['horse_origin'] = X['horse'] * X['origin']
 
-interact_horse_origin = np.mean(cross_val_score(regression, X_interact, y, scoring="r2", cv=crossvalidation))
+interact_horse_origin = np.mean(cross_val_score(regression, X_interact, y, scoring='r2', cv=crossvalidation))
 interact_horse_origin
 ```
 
@@ -276,7 +266,7 @@ interact_horse_origin
 
 
 
-By actually including an interaction effect here, we did bump our $R^2$ to 0.841 from 0.832, so about 1%! Let's now run the same model in statsmodels to see if the interaction effect is significant.
+By actually including an interaction effect here, we did bump our $R^2$ to 0.841 from 0.832, so about 1%! Let's now run the same model in `statsmodels` to see if the interaction effect is significant.
 
 
 ```python
@@ -287,6 +277,10 @@ results = model.fit()
 
 results.summary()
 ```
+
+    //anaconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2389: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+      return ptp(axis=axis, out=out, **kwargs)
+
 
 
 
@@ -303,10 +297,10 @@ results.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   285.6</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Wed, 17 Apr 2019</td> <th>  Prob (F-statistic):</th> <td>2.84e-156</td>
+  <th>Date:</th>             <td>Wed, 30 Oct 2019</td> <th>  Prob (F-statistic):</th> <td>2.84e-156</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:26:07</td>     <th>  Log-Likelihood:    </th> <td> -980.75</td> 
+  <th>Time:</th>                 <td>16:53:27</td>     <th>  Log-Likelihood:    </th> <td> -980.75</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   1980.</td> 
@@ -374,7 +368,7 @@ Even though the lines look parallel, the interaction effect between horsepower a
 
 ## Interactions between horsepower and model year
 
-How about interactions between two continuous variables? Let's explore interactions between horsepower and model year. We're interested to see if the effect of horsepower on mpg if different between older cars and younger cars. 
+How about interactions between two continuous variables? Let's explore interactions between horsepower and model year. We're interested to see if the effect of horsepower on mpg is different between older and younger cars. 
 
 
 ```python
@@ -382,7 +376,7 @@ yr_old = data_fin[:180] # cars from 70 to 75
 yr_young = data_fin[180:] # cars from 76 to 82
 ```
 
-What we did here is split the data up to create two data sets, for "older" cars and "younger" cars.
+What we did here is split the data up to create two datasets, for "older" cars and "younger" cars.
 
 
 ```python
@@ -391,11 +385,11 @@ plt.figure(figsize=(12,7))
 regression_1 = LinearRegression()
 regression_2 = LinearRegression()
 
-horse_1 = yr_old["horse"].values.reshape(-1, 1)
-horse_2 = yr_young["horse"].values.reshape(-1, 1)
+horse_1 = yr_old['horse'].values.reshape(-1, 1)
+horse_2 = yr_young['horse'].values.reshape(-1, 1)
 
-regression_1.fit(horse_1, yr_old["mpg"])
-regression_2.fit(horse_2, yr_young["mpg"])
+regression_1.fit(horse_1, yr_old['mpg'])
+regression_2.fit(horse_2, yr_young['mpg'])
 
 # Make predictions using the testing set
 pred_1 = regression_1.predict(horse_1)
@@ -419,19 +413,19 @@ print(regression_2.coef_)
 # Plot outputs
 plt.figure(figsize=(10,6))
 
-plt.scatter(horse_1, yr_old["mpg"],  color='blue', alpha = 0.3, label = "older cars")
-plt.scatter(horse_2, yr_young["mpg"],  color='red', alpha = 0.3, label = "younger cars")
+plt.scatter(horse_1, yr_old['mpg'],  color='blue', alpha = 0.3, label = 'older cars')
+plt.scatter(horse_2, yr_young['mpg'],  color='red', alpha = 0.3, label = 'younger cars')
 
 plt.plot(horse_1, pred_1,  color='blue', linewidth=2)
 plt.plot(horse_2, pred_2,  color='red', linewidth=2)
 
-plt.ylabel("mpg")
-plt.xlabel("horsepower")
+plt.ylabel('mpg')
+plt.xlabel('horsepower')
 plt.legend();
 ```
 
 
-![png](index_files/index_31_0.png)
+![png](index_files/index_30_0.png)
 
 
 More than for our previous example. there seems to be an interaction between horsepower and cars. Let's add the interaction effect in our model and see how it affects $R^2$. 
@@ -442,20 +436,20 @@ regression = LinearRegression()
 crossvalidation = KFold(n_splits=3, shuffle=True, random_state=1)
 
 X_interact_2 = X.copy()
-X_interact_2["horse_year"] = X["horse"] * X["model year"]
+X_interact_2['horse_year'] = X['horse'] * X['model year']
 
-interact_horse_origin = np.mean(cross_val_score(regression, X_interact_2, y, scoring="r2", cv=crossvalidation))
+interact_horse_origin = np.mean(cross_val_score(regression, X_interact_2, y, scoring='r2', cv=crossvalidation))
 interact_horse_origin
 ```
 
 
 
 
-    0.8597777940161033
+    0.8597777940161034
 
 
 
-This result confirms what we have seen before: including this interaction has an even bigger effect on the $R^2$. When running this in statsmodels, unsurprisingly, the effect is significant.
+This result confirms what we have seen before: including this interaction has an even bigger effect on the $R^2$. When running this in `statsmodels`, unsurprisingly, the effect is significant.
 
 
 ```python
@@ -466,6 +460,10 @@ results = model.fit()
 
 results.summary()
 ```
+
+    //anaconda3/lib/python3.7/site-packages/numpy/core/fromnumeric.py:2389: FutureWarning: Method .ptp is deprecated and will be removed in a future version. Use numpy.ptp instead.
+      return ptp(axis=axis, out=out, **kwargs)
+
 
 
 
@@ -482,10 +480,10 @@ results.summary()
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   331.7</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Wed, 17 Apr 2019</td> <th>  Prob (F-statistic):</th> <td>5.05e-167</td>
+  <th>Date:</th>             <td>Wed, 30 Oct 2019</td> <th>  Prob (F-statistic):</th> <td>5.05e-167</td>
 </tr>
 <tr>
-  <th>Time:</th>                 <td>15:26:07</td>     <th>  Log-Likelihood:    </th> <td> -955.36</td> 
+  <th>Time:</th>                 <td>16:53:28</td>     <th>  Log-Likelihood:    </th> <td> -955.36</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>   392</td>      <th>  AIC:               </th> <td>   1929.</td> 
@@ -551,11 +549,11 @@ results.summary()
 
 ## Additional resources
 
-- You can use the Python library seaborn plots to visualize interactions as well. Have a look [here](https://blog.insightdatascience.com/data-visualization-in-python-advanced-functionality-in-seaborn-20d217f1a9a6) for more information.
+- You can use the Python library `seaborn` to visualize interactions as well. Have a look [here](https://blog.insightdatascience.com/data-visualization-in-python-advanced-functionality-in-seaborn-20d217f1a9a6) for more information.
 
 - [This resource](http://www.medicine.mcgill.ca/epidemiology/joseph/courses/EPIB-621/interaction.pdf) walks over multiple examples of regressions with interaction terms. Even though the code is in R, it might give you some additional insights into how interactions work.
 
 
 ## Summary
 
-Great! You now know how to interpret interactions, how to include them in your model and how to interpret them. Obviously, nothing stops you from adding multiple interactions at the same time, and you probably should for many occasions. You'll practice what you learned in the next lab, including interactions 
+Great! You now know how to interpret interactions, how to include them in your model and how to interpret them. Obviously, nothing stops you from adding multiple interactions at the same time, and you probably should for many occasions. You'll practice what you learned here in the next lab, including interactions.  
