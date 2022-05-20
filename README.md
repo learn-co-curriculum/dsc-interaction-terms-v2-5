@@ -1,4 +1,3 @@
-
 # Interactions
 
 ## Introduction
@@ -22,7 +21,7 @@ Let's assume we're trying to predict weight loss of certain people who took a di
 - Considering just the people in the USA and the UK, it seems like the effects of both predictors are additive:
     * Weight loss is bigger in the USA than in the UK.
     * Diet C is more effective than diet A. Diet A is more effective than diet B, which makes diet B the least effective.
-- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet A in the UK
+- When you look at New Zealand, however, it seems like the average weight loss is somewhere between the weight loss for USA and UK, but people seem to be responding much better to diet A in New Zealand
 
 <img src='./images/new_diet_image.png' width="500">
 
@@ -242,7 +241,9 @@ plt.legend();
 ```
 
 
+    
 ![png](index_files/index_19_0.png)
+    
 
 
 Even though we get three different lines at different levels, they do seem to be more or less parallel, so the effect seems pretty additive. Just based on looking at this, it seems like there is no real interaction and the effect of origin when predicting mpg using horsepower is additive. It might not be necessary to include an interaction effect in our model. But how would you actually include interaction effects in our model? To do this, you basically multiply 2 predictors. Let's add an interaction effect between origin and horsepower and see how it affects our $R^2$. 
@@ -425,7 +426,9 @@ plt.legend();
 ```
 
 
+    
 ![png](index_files/index_30_0.png)
+    
 
 
 More than for our previous example. there seems to be an interaction between horsepower and cars. Let's add the interaction effect in our model and see how it affects $R^2$. 
