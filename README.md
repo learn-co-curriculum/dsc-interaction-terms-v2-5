@@ -1477,7 +1477,7 @@ poly.fit(X)
 
 # Create transformed version of X that has all of the original features plus
 # interactions between all features
-new_col_names = pd.Series(poly.get_feature_names(X.columns)).str.replace(" ", " x ")
+new_col_names = pd.Series(poly.get_feature_names_out(X.columns)).str.replace(" ", " x ")
 X_interactions = pd.DataFrame(poly.transform(X), columns=new_col_names)
 X_interactions
 ```
