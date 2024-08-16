@@ -21,6 +21,8 @@ For example, this graph shows two independent variables at the same time. First,
 
 ```python
 import pandas as pd
+import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 %matplotlib nbagg
@@ -86,7 +88,12 @@ import statsmodels.api as sm
 # Prepare data for modeling
 y = data["mpg"]
 X_no_interaction = data[["cylinders", "weight"]].copy()
+
+# Create dummy variables for the 'cylinders' column
 X_no_interaction = pd.get_dummies(X_no_interaction, columns=["cylinders"], drop_first=True)
+
+# Convert the dummy variables to numeric data type
+X_no_interaction = X_no_interaction.astype(float)
 
 # Build model and get results
 no_interaction_model = sm.OLS(y, sm.add_constant(X_no_interaction))
@@ -413,7 +420,7 @@ interaction_results = interaction_model.fit()
 plot_fit_lines(data, interaction_results, "cylinders", [4, 6, 8], [4])
 ```
 
-
+ 
     
 ![png](index_files/index_18_0.png)
     
@@ -422,7 +429,7 @@ plot_fit_lines(data, interaction_results, "cylinders", [4, 6, 8], [4])
 In formula form, we are now saying:
 
 $$ \large{ \text{mpg} = \beta_0 + \begin{cases}
-  \beta_1 \times \text{weight} \times \beta_\text{interaction} + \beta_\text{(4 cylinders)} & \text{if 4 cylinders}, or\\
+  \beta_1 \times \text{weight} + \beta_\text{interaction} + \beta_\text{(4 cylinders)} & \text{if 4 cylinders}, or\\
   \beta_1 \times \text{weight} + \beta_\text{(6 cylinders)} & \text{if 6 cylinders}, or\\
   \beta_1 \times \text{weight} + \beta_\text{(8 cylinders)} & \text{if 8 cylinders}.
 \end{cases}} $$
@@ -1000,7 +1007,7 @@ X_many_interactions
 
 ```python
 # Build model and get results
-many_interactions_model = sm.OLS(y, sm.add_constant(X_many_interactions))
+many_interactions_model = sm.OLS(y, sm.add_constant(X_many_interactions.astype(float)))
 many_interactions_results = many_interactions_model.fit()
 ```
 
@@ -1008,7 +1015,7 @@ many_interactions_results = many_interactions_model.fit()
 ```python
 # Plot many fit lines
 # (Remember, a model year of 1 means 1971)
-plot_fit_lines(data, many_interactions_results, "model year", years, years, cmap="viridis")
+plot_fit_lines(data, many_interactions_results, "model year", years, years, cmap=mpl.colormaps['viridis'])
 ```
 
 
